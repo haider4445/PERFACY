@@ -1,0 +1,702 @@
+
+
+=================================
+
+Dataset: ADULT 
+Number of attributes: 15 
+Number of labels: 1 
+Number of rows: 32561 
+Postive ratio: 0.2408095574460244
+(4,)
+Successful attribute split for multiple organizations
+
+The current vertical FL has a non-configurable structure.
+Reconfigurable vertical FL can be achieved by simply changing the attribute group split!
+Ming revised the codes on 12/11/2021 to realize re-configurable vertical FL.
+
+There are 4 participant organizations:
+The attributes held by Organization 0: ['age', 'workclass', 'fnlwgt', 'marital-status']
+The attributes held by Organization 1: ['occupation', 'relationship', 'race', 'sex']
+The attributes held by Organization 2: ['capital-gain', 'capital-loss', 'hours-per-week', 'native-country']
+The attributes held by Organization 3: [0, 1, 2, 3]
+{0: array([['State-gov', 77516, 'Bachelors', 'Never-married'],
+       ['Self-emp-not-inc', 83311, 'Bachelors', 'Married-civ-spouse'],
+       ['Private', 215646, 'HS-grad', 'Divorced'],
+       ...,
+       ['Private', 151910, 'HS-grad', 'Widowed'],
+       ['Private', 201490, 'HS-grad', 'Never-married'],
+       ['Self-emp-inc', 287927, 'HS-grad', 'Married-civ-spouse']],
+      dtype=object)}
+vertical split data for organization 0: [['State-gov' 77516 'Bachelors' 'Never-married']
+ ['Self-emp-not-inc' 83311 'Bachelors' 'Married-civ-spouse']
+ ['Private' 215646 'HS-grad' 'Divorced']
+ ...
+ ['Private' 151910 'HS-grad' 'Widowed']
+ ['Private' 201490 'HS-grad' 'Never-married']
+ ['Self-emp-inc' 287927 'HS-grad' 'Married-civ-spouse']]
+encoded vertical split data for organization 0: [[0. 0. 0. ... 1. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ ...
+ [0. 0. 0. ... 0. 0. 1.]
+ [0. 0. 0. ... 1. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+The shape of the encoded dataset held by Organization 0: (32561, 21680)
+{0: array([['State-gov', 77516, 'Bachelors', 'Never-married'],
+       ['Self-emp-not-inc', 83311, 'Bachelors', 'Married-civ-spouse'],
+       ['Private', 215646, 'HS-grad', 'Divorced'],
+       ...,
+       ['Private', 151910, 'HS-grad', 'Widowed'],
+       ['Private', 201490, 'HS-grad', 'Never-married'],
+       ['Self-emp-inc', 287927, 'HS-grad', 'Married-civ-spouse']],
+      dtype=object), 1: array([['Adm-clerical', 'Not-in-family', 'White', 'Male'],
+       ['Exec-managerial', 'Husband', 'White', 'Male'],
+       ['Handlers-cleaners', 'Not-in-family', 'White', 'Male'],
+       ...,
+       ['Adm-clerical', 'Unmarried', 'White', 'Female'],
+       ['Adm-clerical', 'Own-child', 'White', 'Male'],
+       ['Exec-managerial', 'Wife', 'White', 'Female']], dtype=object)}
+vertical split data for organization 1: [['Adm-clerical' 'Not-in-family' 'White' 'Male']
+ ['Exec-managerial' 'Husband' 'White' 'Male']
+ ['Handlers-cleaners' 'Not-in-family' 'White' 'Male']
+ ...
+ ['Adm-clerical' 'Unmarried' 'White' 'Female']
+ ['Adm-clerical' 'Own-child' 'White' 'Male']
+ ['Exec-managerial' 'Wife' 'White' 'Female']]
+encoded vertical split data for organization 1: [[0. 1. 0. ... 1. 0. 1.]
+ [0. 0. 0. ... 1. 0. 1.]
+ [0. 0. 0. ... 1. 0. 1.]
+ ...
+ [0. 1. 0. ... 1. 1. 0.]
+ [0. 1. 0. ... 1. 0. 1.]
+ [0. 0. 0. ... 1. 1. 0.]]
+The shape of the encoded dataset held by Organization 1: (32561, 28)
+{0: array([['State-gov', 77516, 'Bachelors', 'Never-married'],
+       ['Self-emp-not-inc', 83311, 'Bachelors', 'Married-civ-spouse'],
+       ['Private', 215646, 'HS-grad', 'Divorced'],
+       ...,
+       ['Private', 151910, 'HS-grad', 'Widowed'],
+       ['Private', 201490, 'HS-grad', 'Never-married'],
+       ['Self-emp-inc', 287927, 'HS-grad', 'Married-civ-spouse']],
+      dtype=object), 1: array([['Adm-clerical', 'Not-in-family', 'White', 'Male'],
+       ['Exec-managerial', 'Husband', 'White', 'Male'],
+       ['Handlers-cleaners', 'Not-in-family', 'White', 'Male'],
+       ...,
+       ['Adm-clerical', 'Unmarried', 'White', 'Female'],
+       ['Adm-clerical', 'Own-child', 'White', 'Male'],
+       ['Exec-managerial', 'Wife', 'White', 'Female']], dtype=object), 2: array([[2174, 0, 40, 'United-States'],
+       [0, 0, 13, 'United-States'],
+       [0, 0, 40, 'United-States'],
+       ...,
+       [0, 0, 40, 'United-States'],
+       [0, 0, 20, 'United-States'],
+       [15024, 0, 40, 'United-States']], dtype=object)}
+vertical split data for organization 2: [[2174 0 40 'United-States']
+ [0 0 13 'United-States']
+ [0 0 40 'United-States']
+ ...
+ [0 0 40 'United-States']
+ [0 0 20 'United-States']
+ [15024 0 40 'United-States']]
+encoded vertical split data for organization 2: [[0. 0. 0. ... 1. 0. 0.]
+ [1. 0. 0. ... 1. 0. 0.]
+ [1. 0. 0. ... 1. 0. 0.]
+ ...
+ [1. 0. 0. ... 1. 0. 0.]
+ [1. 0. 0. ... 1. 0. 0.]
+ [0. 0. 0. ... 1. 0. 0.]]
+The shape of the encoded dataset held by Organization 2: (32561, 347)
+{0: array([['State-gov', 77516, 'Bachelors', 'Never-married'],
+       ['Self-emp-not-inc', 83311, 'Bachelors', 'Married-civ-spouse'],
+       ['Private', 215646, 'HS-grad', 'Divorced'],
+       ...,
+       ['Private', 151910, 'HS-grad', 'Widowed'],
+       ['Private', 201490, 'HS-grad', 'Never-married'],
+       ['Self-emp-inc', 287927, 'HS-grad', 'Married-civ-spouse']],
+      dtype=object), 1: array([['Adm-clerical', 'Not-in-family', 'White', 'Male'],
+       ['Exec-managerial', 'Husband', 'White', 'Male'],
+       ['Handlers-cleaners', 'Not-in-family', 'White', 'Male'],
+       ...,
+       ['Adm-clerical', 'Unmarried', 'White', 'Female'],
+       ['Adm-clerical', 'Own-child', 'White', 'Male'],
+       ['Exec-managerial', 'Wife', 'White', 'Female']], dtype=object), 2: array([[2174, 0, 40, 'United-States'],
+       [0, 0, 13, 'United-States'],
+       [0, 0, 40, 'United-States'],
+       ...,
+       [0, 0, 40, 'United-States'],
+       [0, 0, 20, 'United-States'],
+       [15024, 0, 40, 'United-States']], dtype=object), 3: array([[1, 0, 0, 0],
+       [1, 1, 2, 2],
+       [1, 0, 1, 2],
+       ...,
+       [0, 0, 2, 1],
+       [2, 2, 1, 1],
+       [0, 1, 2, 0]], dtype=int8)}
+vertical split data for organization 3: [[1 0 0 0]
+ [1 1 2 2]
+ [1 0 1 2]
+ ...
+ [0 0 2 1]
+ [2 2 1 1]
+ [0 1 2 0]]
+encoded vertical split data for organization 3: [[0. 1. 0. ... 1. 0. 0.]
+ [0. 1. 0. ... 0. 0. 1.]
+ [0. 1. 0. ... 0. 0. 1.]
+ ...
+ [1. 0. 0. ... 0. 1. 0.]
+ [0. 0. 1. ... 0. 1. 0.]
+ [1. 0. 0. ... 1. 0. 0.]]
+The shape of the encoded dataset held by Organization 3: (32561, 12)
+X shape: (32561, 16)
+attribute groups: [['age', 'workclass', 'fnlwgt', 'marital-status'], ['occupation', 'relationship', 'race', 'sex'], ['capital-gain', 'capital-loss', 'hours-per-week', 'native-country'], [0, 1, 2, 3]]
+{0: array([[0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [0., 0., 0., ..., 1., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 1., 0., 0.]])} {0: array([[0., 0., 0., ..., 1., 0., 0.],
+       [0., 0., 1., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [0., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.]])}
+
+Start vertical FL......
+
+For the 1-th epoch, train loss: 0.31386199593544006, test auc: 0.9179826728294521
+Organization 0 contribution: -0.00047990108459249146
+Organization 1 contribution: 0.0008566139352697043
+Organization 2 contribution: -0.0035952019051630046
+Organization 3 contribution: 0.0002403019900436735
+type of attr_lst:  <class 'list'>
+For the 2-th epoch, train loss: 0.1761256903409958, test auc: 0.8758031512878292
+Organization 0 contribution: -7.452260544789932e-05
+Organization 1 contribution: 0.0004729056866204458
+Organization 2 contribution: -0.0027462321567962218
+Organization 3 contribution: -3.3587894588128736e-05
+type of attr_lst:  <class 'list'>
+For the 3-th epoch, train loss: 0.07648500055074692, test auc: 0.8804041139876038
+Organization 0 contribution: -0.0005994345343154299
+Organization 1 contribution: 3.171618005639606e-05
+Organization 2 contribution: -0.0032934080216091245
+Organization 3 contribution: -0.0001614885580625107
+type of attr_lst:  <class 'list'>
+For the 4-th epoch, train loss: 0.06326393783092499, test auc: 0.8784963791217699
+Organization 0 contribution: -0.00027461335316578974
+Organization 1 contribution: 6.797702059787454e-05
+Organization 2 contribution: -0.0027191519343159293
+Organization 3 contribution: -0.00014467784055677212
+type of attr_lst:  <class 'list'>
+For the 5-th epoch, train loss: 0.13247095048427582, test auc: 0.8780636707465975
+Organization 0 contribution: -0.0006925630053697544
+Organization 1 contribution: -0.00014091254000680688
+Organization 2 contribution: -0.002592632562773844
+Organization 3 contribution: -0.0001749409636434465
+type of attr_lst:  <class 'list'>
+For the 6-th epoch, train loss: 0.22794079780578613, test auc: 0.871774509047805
+Organization 0 contribution: -0.001049959719152879
+Organization 1 contribution: -0.00011626930121130539
+Organization 2 contribution: -0.0019763847346569697
+Organization 3 contribution: -0.00014075211561509398
+type of attr_lst:  <class 'list'>
+For the 7-th epoch, train loss: 0.06539217382669449, test auc: 0.8739579682356418
+Organization 0 contribution: -0.0012742156539144766
+Organization 1 contribution: -0.0002056950913557172
+Organization 2 contribution: -0.0020482166589231303
+Organization 3 contribution: -0.0001327645383172408
+type of attr_lst:  <class 'list'>
+For the 8-th epoch, train loss: 0.027549326419830322, test auc: 0.8773769371017653
+Organization 0 contribution: -0.0013611029169478433
+Organization 1 contribution: -0.00028719022981652046
+Organization 2 contribution: -0.0019738875821899804
+Organization 3 contribution: -0.00013531478999359166
+type of attr_lst:  <class 'list'>
+For the 9-th epoch, train loss: 0.0998477041721344, test auc: 0.8769544101001262
+Organization 0 contribution: -0.0015657754268431176
+Organization 1 contribution: -0.0002264811411713187
+Organization 2 contribution: -0.0012866020597026644
+Organization 3 contribution: -0.00010176524311508897
+type of attr_lst:  <class 'list'>
+For the 10-th epoch, train loss: 0.028171628713607788, test auc: 0.8707962699519922
+Organization 0 contribution: -0.0016248041924110158
+Organization 1 contribution: -0.00023108145227813303
+Organization 2 contribution: -0.001618718587776312
+Organization 3 contribution: -9.897610756450028e-05
+type of attr_lst:  <class 'list'>
+For the 11-th epoch, train loss: 0.06507428735494614, test auc: 0.8757946243874948
+Organization 0 contribution: -0.0015601011361202719
+Organization 1 contribution: -0.0003680867616454633
+Organization 2 contribution: -0.001428325182639056
+Organization 3 contribution: -8.56257404473241e-05
+type of attr_lst:  <class 'list'>
+For the 12-th epoch, train loss: 0.3365767300128937, test auc: 0.8758709210554114
+Organization 0 contribution: -0.0017683870827466276
+Organization 1 contribution: -0.00039086638874082384
+Organization 2 contribution: -0.0012223070380265077
+Organization 3 contribution: -9.970344105715646e-05
+type of attr_lst:  <class 'list'>
+For the 13-th epoch, train loss: 0.0290363859385252, test auc: 0.8784202733546073
+Organization 0 contribution: -0.0017685823533626253
+Organization 1 contribution: -0.0004346021824213282
+Organization 2 contribution: -0.0009830931629519638
+Organization 3 contribution: -4.569338083210982e-05
+type of attr_lst:  <class 'list'>
+For the 14-th epoch, train loss: 0.17511357367038727, test auc: 0.8750694560575738
+Organization 0 contribution: -0.00195708975940719
+Organization 1 contribution: -0.00032622844596388856
+Organization 2 contribution: -0.0006470981817586535
+Organization 3 contribution: -3.4706292337433526e-05
+type of attr_lst:  <class 'list'>
+For the 15-th epoch, train loss: 0.15499405562877655, test auc: 0.8749709512686372
+Organization 0 contribution: -0.0020856710173479376
+Organization 1 contribution: -0.000570587912851378
+Organization 2 contribution: -0.0009845973913523653
+Organization 3 contribution: -6.52490399603916e-05
+type of attr_lst:  <class 'list'>
+For the 16-th epoch, train loss: 0.05013180151581764, test auc: 0.8702785471078154
+Organization 0 contribution: -0.002386994857870565
+Organization 1 contribution: -0.000432684283294547
+Organization 2 contribution: -0.0007585992944407134
+Organization 3 contribution: -4.958649353691911e-05
+type of attr_lst:  <class 'list'>
+For the 17-th epoch, train loss: 0.15575841069221497, test auc: 0.8736314006795559
+Organization 0 contribution: -0.0025498262976464347
+Organization 1 contribution: -0.0005004105259607908
+Organization 2 contribution: -0.0007445023905561213
+Organization 3 contribution: -3.1603785742470514e-05
+type of attr_lst:  <class 'list'>
+For the 18-th epoch, train loss: 0.06552575528621674, test auc: 0.8713434551458316
+Organization 0 contribution: -0.0026848337274549996
+Organization 1 contribution: -0.0004634404677982331
+Organization 2 contribution: 4.8722292749534675e-05
+Organization 3 contribution: 1.094109808228629e-05
+type of attr_lst:  <class 'list'>
+For the 19-th epoch, train loss: 0.15021555125713348, test auc: 0.873033944953895
+Organization 0 contribution: -0.002719381363776053
+Organization 1 contribution: -0.0005153689243720675
+Organization 2 contribution: -0.0002409886286303695
+Organization 3 contribution: -1.6439102418428894e-05
+type of attr_lst:  <class 'list'>
+For the 20-th epoch, train loss: 0.04331367090344429, test auc: 0.8770161346771729
+Organization 0 contribution: -0.0025432397179641925
+Organization 1 contribution: -0.0004343065177939633
+Organization 2 contribution: 8.280910836581483e-05
+Organization 3 contribution: 9.078105932221189e-07
+type of attr_lst:  <class 'list'>
+For the 21-th epoch, train loss: 0.09862983226776123, test auc: 0.8737849485191574
+Organization 0 contribution: -0.0026909858600576045
+Organization 1 contribution: -0.0005663624746370748
+Organization 2 contribution: -0.0002604601164275385
+Organization 3 contribution: -2.214807745074812e-05
+type of attr_lst:  <class 'list'>
+For the 22-th epoch, train loss: 0.17538513243198395, test auc: 0.8701172359708947
+Organization 0 contribution: -0.002835516868770222
+Organization 1 contribution: -0.0006084061141327814
+Organization 2 contribution: -0.0005027628985035906
+Organization 3 contribution: -3.517431264947117e-05
+type of attr_lst:  <class 'list'>
+For the 23-th epoch, train loss: 0.0393793061375618, test auc: 0.8713458095884613
+Organization 0 contribution: -0.0029044931645664986
+Organization 1 contribution: -0.0004680863274091911
+Organization 2 contribution: -0.00019817396526342155
+Organization 3 contribution: -4.553606890289511e-05
+type of attr_lst:  <class 'list'>
+For the 24-th epoch, train loss: 0.025431009009480476, test auc: 0.872909986731125
+Organization 0 contribution: -0.002894315217844676
+Organization 1 contribution: -0.0005386024585539135
+Organization 2 contribution: -0.00030486833945935653
+Organization 3 contribution: -2.9347011275659682e-05
+type of attr_lst:  <class 'list'>
+For the 25-th epoch, train loss: 0.06057696044445038, test auc: 0.8725913097395273
+Organization 0 contribution: -0.0029080640034646102
+Organization 1 contribution: -0.0004925096719248809
+Organization 2 contribution: -0.00023640935575517118
+Organization 3 contribution: -3.324906203135164e-05
+type of attr_lst:  <class 'list'>
+For the 26-th epoch, train loss: 0.11277726292610168, test auc: 0.8718847224163045
+Organization 0 contribution: -0.002862887735735771
+Organization 1 contribution: -0.000640874306994131
+Organization 2 contribution: -0.0002762682319469966
+Organization 3 contribution: -4.3640805469519197e-05
+type of attr_lst:  <class 'list'>
+For the 27-th epoch, train loss: 0.014378808438777924, test auc: 0.8682955337114187
+Organization 0 contribution: -0.0028407418996808987
+Organization 1 contribution: -0.00043675172489538073
+Organization 2 contribution: -7.24151972422937e-05
+Organization 3 contribution: -2.689087153662722e-05
+type of attr_lst:  <class 'list'>
+For the 28-th epoch, train loss: 0.03498135134577751, test auc: 0.872652716148651
+Organization 0 contribution: -0.0028823761285495016
+Organization 1 contribution: -0.00043633431320504754
+Organization 2 contribution: 0.00012493221689177384
+Organization 3 contribution: -2.7073827969637618e-05
+type of attr_lst:  <class 'list'>
+For the 29-th epoch, train loss: 0.10034822672605515, test auc: 0.8724040997336807
+Organization 0 contribution: -0.0027350781209327054
+Organization 1 contribution: -0.0004367974898445387
+Organization 2 contribution: 0.00024020087018764794
+Organization 3 contribution: -1.657110170335368e-05
+type of attr_lst:  <class 'list'>
+For the 30-th epoch, train loss: 0.02442697249352932, test auc: 0.8723761009564638
+Organization 0 contribution: -0.003031972250882863
+Organization 1 contribution: -0.0004162197276664632
+Organization 2 contribution: 0.0001888866318674163
+Organization 3 contribution: -2.5616290452216708e-05
+type of attr_lst:  <class 'list'>
+For the 31-th epoch, train loss: 0.06349892914295197, test auc: 0.8737275510258624
+Organization 0 contribution: -0.0028852427994932603
+Organization 1 contribution: -0.0005375659187196109
+Organization 2 contribution: -0.0003967934965991983
+Organization 3 contribution: -4.863707612493182e-05
+type of attr_lst:  <class 'list'>
+For the 32-th epoch, train loss: 0.03111244924366474, test auc: 0.8717997715808847
+Organization 0 contribution: -0.0029227516693555496
+Organization 1 contribution: -0.00047400003958258225
+Organization 2 contribution: 0.0002484640406176026
+Organization 3 contribution: -7.573761425038394e-06
+type of attr_lst:  <class 'list'>
+For the 33-th epoch, train loss: 0.10378879308700562, test auc: 0.8719209935595176
+Organization 0 contribution: -0.002769237387505702
+Organization 1 contribution: -0.0006044313552078819
+Organization 2 contribution: -8.536105643192952e-05
+Organization 3 contribution: -7.303891204936151e-06
+type of attr_lst:  <class 'list'>
+For the 34-th epoch, train loss: 0.07317997515201569, test auc: 0.868936069373843
+Organization 0 contribution: -0.0026655371214565566
+Organization 1 contribution: -0.0005691771025954969
+Organization 2 contribution: -0.0001192030252047348
+Organization 3 contribution: -1.0544922648169814e-05
+type of attr_lst:  <class 'list'>
+For the 35-th epoch, train loss: 0.03766897693276405, test auc: 0.8692418923813545
+Organization 0 contribution: -0.0026078916852755162
+Organization 1 contribution: -0.0005828271721715972
+Organization 2 contribution: -1.818584222115505e-05
+Organization 3 contribution: 8.333235551670079e-07
+type of attr_lst:  <class 'list'>
+For the 36-th epoch, train loss: 0.05413765832781792, test auc: 0.867805173308613
+Organization 0 contribution: -0.0026873441745927395
+Organization 1 contribution: -0.0005495238124535623
+Organization 2 contribution: -0.00023436099044692627
+Organization 3 contribution: -5.440043327939909e-06
+type of attr_lst:  <class 'list'>
+For the 37-th epoch, train loss: 0.06680908054113388, test auc: 0.8703913694532832
+Organization 0 contribution: -0.0027274150246180775
+Organization 1 contribution: -0.0006564841853908426
+Organization 2 contribution: -0.00017164872718086378
+Organization 3 contribution: 5.439064354403076e-06
+type of attr_lst:  <class 'list'>
+For the 38-th epoch, train loss: 0.041943419724702835, test auc: 0.8662946392777537
+Organization 0 contribution: -0.0027527891457597223
+Organization 1 contribution: -0.0005737233217902029
+Organization 2 contribution: -0.00015829889431449875
+Organization 3 contribution: 1.5405602823090148e-06
+type of attr_lst:  <class 'list'>
+For the 39-th epoch, train loss: 0.07990271598100662, test auc: 0.8668298613576912
+Organization 0 contribution: -0.0027817953143680933
+Organization 1 contribution: -0.0005356673461348023
+Organization 2 contribution: 0.00036933520924660115
+Organization 3 contribution: 1.4527792065964788e-05
+type of attr_lst:  <class 'list'>
+For the 40-th epoch, train loss: 0.12600548565387726, test auc: 0.8730763249212279
+Organization 0 contribution: -0.002678355718796917
+Organization 1 contribution: -0.0006179855199696455
+Organization 2 contribution: -0.00028412357102367355
+Organization 3 contribution: 1.2695967743326318e-06
+type of attr_lst:  <class 'list'>
+For the 41-th epoch, train loss: 0.029931165277957916, test auc: 0.8699424981476264
+Organization 0 contribution: -0.0027313942630107094
+Organization 1 contribution: -0.0005425747285158297
+Organization 2 contribution: -8.672531068733363e-05
+Organization 3 contribution: 8.256340958514005e-06
+type of attr_lst:  <class 'list'>
+For the 42-th epoch, train loss: 0.09493634849786758, test auc: 0.8695706234793164
+Organization 0 contribution: -0.002575066392980945
+Organization 1 contribution: -0.0006298805708664232
+Organization 2 contribution: -2.9969074317978645e-05
+Organization 3 contribution: 1.2483288086807013e-05
+type of attr_lst:  <class 'list'>
+For the 43-th epoch, train loss: 0.10963518172502518, test auc: 0.8711542088652783
+Organization 0 contribution: -0.002731124678234046
+Organization 1 contribution: -0.0006146980906419436
+Organization 2 contribution: -0.00030151686428216796
+Organization 3 contribution: -8.704450682735504e-06
+type of attr_lst:  <class 'list'>
+For the 44-th epoch, train loss: 0.06710777431726456, test auc: 0.8676854149024255
+Organization 0 contribution: -0.002822732409700676
+Organization 1 contribution: -0.000589843184907101
+Organization 2 contribution: -0.00016962309365042526
+Organization 3 contribution: 2.718523206982822e-06
+type of attr_lst:  <class 'list'>
+For the 45-th epoch, train loss: 0.09606906771659851, test auc: 0.861459886788217
+Organization 0 contribution: -0.0027483869818031646
+Organization 1 contribution: -0.0006583402302993088
+Organization 2 contribution: -0.0004253698414692643
+Organization 3 contribution: -1.577728049860837e-05
+type of attr_lst:  <class 'list'>
+For the 46-th epoch, train loss: 0.04826650395989418, test auc: 0.8646447476966551
+Organization 0 contribution: -0.0025650526130725367
+Organization 1 contribution: -0.0006197421543709943
+Organization 2 contribution: -0.0002988656115102337
+Organization 3 contribution: -1.2297750514477874e-06
+type of attr_lst:  <class 'list'>
+For the 47-th epoch, train loss: 0.10328459739685059, test auc: 0.8719494377718268
+Organization 0 contribution: -0.0025307843660277943
+Organization 1 contribution: -0.0006695800978175738
+Organization 2 contribution: -0.00020524500284529256
+Organization 3 contribution: 1.98554250845671e-06
+type of attr_lst:  <class 'list'>
+For the 48-th epoch, train loss: 0.06922980397939682, test auc: 0.870772280090604
+Organization 0 contribution: -0.0025375677911467893
+Organization 1 contribution: -0.0007227556245978359
+Organization 2 contribution: -0.00016087786932942631
+Organization 3 contribution: 4.113494510733567e-06
+type of attr_lst:  <class 'list'>
+For the 49-th epoch, train loss: 0.06745804101228714, test auc: 0.8680360359534843
+Organization 0 contribution: -0.002622900874592579
+Organization 1 contribution: -0.0006408254592454013
+Organization 2 contribution: 9.831792926404445e-06
+Organization 3 contribution: 1.4330728931285195e-05
+type of attr_lst:  <class 'list'>
+For the 50-th epoch, train loss: 0.03895167261362076, test auc: 0.8685227056083842
+Organization 0 contribution: -0.002503541014893686
+Organization 1 contribution: -0.0006617143907642648
+Organization 2 contribution: -0.0002828496610894672
+Organization 3 contribution: 2.928280527386745e-06
+type of attr_lst:  <class 'list'>
+For the 51-th epoch, train loss: 0.019962845370173454, test auc: 0.8628286451926226
+Organization 0 contribution: -0.0027729263884407646
+Organization 1 contribution: -0.0005840977642146591
+Organization 2 contribution: -0.00040709905285663943
+Organization 3 contribution: -2.764987000003288e-06
+type of attr_lst:  <class 'list'>
+For the 52-th epoch, train loss: 0.05556916072964668, test auc: 0.8649072362330649
+Organization 0 contribution: -0.0027526212868339054
+Organization 1 contribution: -0.0006147720885586417
+Organization 2 contribution: -0.00024270438249204848
+Organization 3 contribution: 2.600026360770944e-06
+type of attr_lst:  <class 'list'>
+For the 53-th epoch, train loss: 0.1365348845720291, test auc: 0.8626651068802413
+Organization 0 contribution: -0.002730308169093032
+Organization 1 contribution: -0.0005779149515724812
+Organization 2 contribution: -0.00014716074489312523
+Organization 3 contribution: 5.656521196516702e-06
+type of attr_lst:  <class 'list'>
+For the 54-th epoch, train loss: 0.02323620207607746, test auc: 0.8632926612914105
+Organization 0 contribution: -0.002736514090721451
+Organization 1 contribution: -0.0005814243040508338
+Organization 2 contribution: -0.00022185885088490983
+Organization 3 contribution: 4.930587452479458e-06
+type of attr_lst:  <class 'list'>
+For the 55-th epoch, train loss: 0.03358825668692589, test auc: 0.8686982070346674
+Organization 0 contribution: -0.002742823856906676
+Organization 1 contribution: -0.0006310920534723754
+Organization 2 contribution: -0.00028808773140031853
+Organization 3 contribution: -4.179942961686278e-06
+type of attr_lst:  <class 'list'>
+For the 56-th epoch, train loss: 0.08001389354467392, test auc: 0.8655582714369456
+Organization 0 contribution: -0.002818343359171542
+Organization 1 contribution: -0.0006816508537591503
+Organization 2 contribution: -3.394681869710954e-05
+Organization 3 contribution: 1.0354539299298829e-06
+type of attr_lst:  <class 'list'>
+For the 57-th epoch, train loss: 0.16162757575511932, test auc: 0.8635302054626633
+Organization 0 contribution: -0.0027048246703184294
+Organization 1 contribution: -0.0006583627190170179
+Organization 2 contribution: -4.016605832286997e-05
+Organization 3 contribution: -4.722376821309405e-07
+type of attr_lst:  <class 'list'>
+For the 58-th epoch, train loss: 0.02057732455432415, test auc: 0.8639511416246876
+Organization 0 contribution: -0.0027594585808518937
+Organization 1 contribution: -0.0006464578913198767
+Organization 2 contribution: -2.5636183934593217e-05
+Organization 3 contribution: -2.2303498876226114e-06
+type of attr_lst:  <class 'list'>
+For the 59-th epoch, train loss: 0.057626109570264816, test auc: 0.8680011011155476
+Organization 0 contribution: -0.0026755402843839714
+Organization 1 contribution: -0.0006342828647311227
+Organization 2 contribution: 7.66613144113898e-05
+Organization 3 contribution: 1.0744649621064265e-05
+type of attr_lst:  <class 'list'>
+For the 60-th epoch, train loss: 0.023047102615237236, test auc: 0.8700056862971184
+Organization 0 contribution: -0.002514792615577498
+Organization 1 contribution: -0.0006727412924454789
+Organization 2 contribution: -0.00010952986509281854
+Organization 3 contribution: 7.023006995060148e-07
+type of attr_lst:  <class 'list'>
+For the 61-th epoch, train loss: 0.034021709114313126, test auc: 0.8614623048644312
+Organization 0 contribution: -0.0028394460063119738
+Organization 1 contribution: -0.000713455271501074
+Organization 2 contribution: -0.00021867431377258918
+Organization 3 contribution: -1.4380043126378212e-05
+type of attr_lst:  <class 'list'>
+For the 62-th epoch, train loss: 0.0631372258067131, test auc: 0.863722760689615
+Organization 0 contribution: -0.00252467581448461
+Organization 1 contribution: -0.0005428677724049633
+Organization 2 contribution: -0.0002302903309608131
+Organization 3 contribution: 1.380285393952932e-05
+type of attr_lst:  <class 'list'>
+For the 63-th epoch, train loss: 0.05911875143647194, test auc: 0.8590839996405975
+Organization 0 contribution: -0.002550983864311794
+Organization 1 contribution: -0.0005684118087357378
+Organization 2 contribution: -2.2095507586684755e-05
+Organization 3 contribution: 3.5024774297375005e-05
+type of attr_lst:  <class 'list'>
+For the 64-th epoch, train loss: 0.0647677406668663, test auc: 0.8661632359255874
+Organization 0 contribution: -0.0025470026980874473
+Organization 1 contribution: -0.0005852579346786152
+Organization 2 contribution: -0.00011895994724272085
+Organization 3 contribution: 2.0120551020757285e-05
+type of attr_lst:  <class 'list'>
+For the 65-th epoch, train loss: 0.04556627571582794, test auc: 0.8596564473675168
+Organization 0 contribution: -0.0027845795339665083
+Organization 1 contribution: -0.0005235917175728745
+Organization 2 contribution: 3.0282604349475977e-05
+Organization 3 contribution: 1.7387791720054535e-05
+type of attr_lst:  <class 'list'>
+For the 66-th epoch, train loss: 0.12348330020904541, test auc: 0.8605651985889635
+Organization 0 contribution: -0.002904804036393913
+Organization 1 contribution: -0.0005095062867545004
+Organization 2 contribution: -0.00030169700040541325
+Organization 3 contribution: 4.642544475784775e-06
+type of attr_lst:  <class 'list'>
+For the 67-th epoch, train loss: 0.00973891094326973, test auc: 0.8652571573146933
+Organization 0 contribution: -0.0027182206187273987
+Organization 1 contribution: -0.0005218747062465179
+Organization 2 contribution: -1.1822009897010486e-05
+Organization 3 contribution: 2.8143775159663276e-05
+type of attr_lst:  <class 'list'>
+For the 68-th epoch, train loss: 0.055152714252471924, test auc: 0.8657542628774647
+Organization 0 contribution: -0.0025848532325668506
+Organization 1 contribution: -0.0006054160965606286
+Organization 2 contribution: -0.0003900881095807258
+Organization 3 contribution: 1.777190952763861e-05
+type of attr_lst:  <class 'list'>
+For the 69-th epoch, train loss: 0.01834692619740963, test auc: 0.865702210605275
+Organization 0 contribution: -0.002671635856250193
+Organization 1 contribution: -0.0005803389052665436
+Organization 2 contribution: -0.0002463859070498554
+Organization 3 contribution: 1.7819308087010852e-05
+type of attr_lst:  <class 'list'>
+For the 70-th epoch, train loss: 0.036208245903253555, test auc: 0.8636666995015962
+Organization 0 contribution: -0.0027495539419475344
+Organization 1 contribution: -0.0004809504042993405
+Organization 2 contribution: 9.563217665822416e-05
+Organization 3 contribution: 3.742412753840954e-05
+type of attr_lst:  <class 'list'>
+For the 71-th epoch, train loss: 0.013229620642960072, test auc: 0.8639138523441213
+Organization 0 contribution: -0.0027251167220779006
+Organization 1 contribution: -0.0005151567246034813
+Organization 2 contribution: -7.029198347523426e-06
+Organization 3 contribution: 2.021005460730052e-05
+type of attr_lst:  <class 'list'>
+For the 72-th epoch, train loss: 0.06827463209629059, test auc: 0.858923833908199
+Organization 0 contribution: -0.002785231112431252
+Organization 1 contribution: -0.0005497119194119493
+Organization 2 contribution: -0.00025381378404127725
+Organization 3 contribution: 8.519762037898945e-06
+type of attr_lst:  <class 'list'>
+For the 73-th epoch, train loss: 0.0593995563685894, test auc: 0.8601695885936037
+Organization 0 contribution: -0.002546555040370888
+Organization 1 contribution: -0.000604281328842029
+Organization 2 contribution: -2.6187368462109336e-05
+Organization 3 contribution: 2.4101627602705898e-05
+type of attr_lst:  <class 'list'>
+For the 74-th epoch, train loss: 0.08344489336013794, test auc: 0.8645430612284896
+Organization 0 contribution: -0.0025008225380509603
+Organization 1 contribution: -0.0006473549279445223
+Organization 2 contribution: -0.00020705765301171834
+Organization 3 contribution: 1.838805175554703e-05
+type of attr_lst:  <class 'list'>
+For the 75-th epoch, train loss: 0.09292182326316833, test auc: 0.8635919936732944
+Organization 0 contribution: -0.002512636686505556
+Organization 1 contribution: -0.0006710603661839624
+Organization 2 contribution: -0.000443176521266548
+Organization 3 contribution: 1.6055159939594133e-06
+type of attr_lst:  <class 'list'>
+For the 76-th epoch, train loss: 0.04224478080868721, test auc: 0.8634742715418138
+Organization 0 contribution: -0.0025538758975116004
+Organization 1 contribution: -0.0005979751807709006
+Organization 2 contribution: -0.00030306130280460304
+Organization 3 contribution: 1.252674036347143e-05
+type of attr_lst:  <class 'list'>
+For the 77-th epoch, train loss: 0.03900127485394478, test auc: 0.8604922745010299
+Organization 0 contribution: -0.002302882299475764
+Organization 1 contribution: -0.0006342761572977344
+Organization 2 contribution: -0.00045123724193743965
+Organization 3 contribution: 3.855899854775837e-05
+type of attr_lst:  <class 'list'>
+For the 78-th epoch, train loss: 0.059714093804359436, test auc: 0.8590582916724256
+Organization 0 contribution: -0.002387476903799843
+Organization 1 contribution: -0.0005960043185950876
+Organization 2 contribution: -0.0003601920725320817
+Organization 3 contribution: 2.5884083811899727e-05
+type of attr_lst:  <class 'list'>
+For the 79-th epoch, train loss: 0.0312038604170084, test auc: 0.8659788257974625
+Organization 0 contribution: -0.002323270352351937
+Organization 1 contribution: -0.0006730991512207661
+Organization 2 contribution: -0.0004190966328641612
+Organization 3 contribution: 1.1205547164812264e-05
+type of attr_lst:  <class 'list'>
+For the 80-th epoch, train loss: 0.16130493581295013, test auc: 0.8602868652899923
+Organization 0 contribution: -0.002717006703999777
+Organization 1 contribution: -0.0006220242321710157
+Organization 2 contribution: -0.0003286595298873764
+Organization 3 contribution: -4.171166584443966e-06
+type of attr_lst:  <class 'list'>
+For the 81-th epoch, train loss: 0.1010691300034523, test auc: 0.866752482918837
+Organization 0 contribution: -0.0027443679410370865
+Organization 1 contribution: -0.0006835316348814954
+Organization 2 contribution: -0.00022829193784253493
+Organization 3 contribution: 1.78748869052302e-05
+type of attr_lst:  <class 'list'>
+For the 82-th epoch, train loss: 0.06374964118003845, test auc: 0.8654019873532068
+Organization 0 contribution: -0.0027617571616833504
+Organization 1 contribution: -0.000600230317225038
+Organization 2 contribution: 0.00024147473707645135
+Organization 3 contribution: 5.13447087635594e-05
+type of attr_lst:  <class 'list'>
+For the 83-th epoch, train loss: 0.14068740606307983, test auc: 0.8614120343326097
+Organization 0 contribution: -0.0027558159242284603
+Organization 1 contribution: -0.0005847128667113681
+Organization 2 contribution: -2.480590153297755e-05
+Organization 3 contribution: 1.6623719281952833e-05
+type of attr_lst:  <class 'list'>
+For the 84-th epoch, train loss: 0.1537269800901413, test auc: 0.8599050001489026
+Organization 0 contribution: -0.002689751122830777
+Organization 1 contribution: -0.0005815147804956542
+Organization 2 contribution: 2.5500288335812006e-06
+Organization 3 contribution: 1.2632091874314617e-05
+type of attr_lst:  <class 'list'>
+For the 85-th epoch, train loss: 0.06759081035852432, test auc: 0.8578015920104726
+Organization 0 contribution: -0.0027722844126572776
+Organization 1 contribution: -0.0006105112762548947
+Organization 2 contribution: -3.5225664488133316e-05
+Organization 3 contribution: 8.800723786093345e-06
+type of attr_lst:  <class 'list'>
+For the 86-th epoch, train loss: 0.19186799228191376, test auc: 0.8613931987915726
+Organization 0 contribution: -0.0026564077595477836
+Organization 1 contribution: -0.0006314841585897896
+Organization 2 contribution: -1.1191278200868983e-05
+Organization 3 contribution: 9.963127613535657e-06
+type of attr_lst:  <class 'list'>
+For the 87-th epoch, train loss: 0.10877847671508789, test auc: 0.8624050364200456
+Organization 0 contribution: -0.0024713756750686855
+Organization 1 contribution: -0.0005851459274053768
+Organization 2 contribution: -0.00031899524002417857
+Organization 3 contribution: -3.806885263333179e-06
+type of attr_lst:  <class 'list'>
+For the 88-th epoch, train loss: 0.009512105956673622, test auc: 0.8605224368201229
+Organization 0 contribution: -0.0026611905241074284
+Organization 1 contribution: -0.0005418449764925804
+Organization 2 contribution: -0.00018001622122091997
+Organization 3 contribution: 4.747732729115394e-06
+type of attr_lst:  <class 'list'>
+For the 89-th epoch, train loss: 0.07673876732587814, test auc: 0.8636322100987517
+Organization 0 contribution: -0.002531508879805348
+Organization 1 contribution: -0.0005874794628696312
+Organization 2 contribution: -0.00033725611264422595
+Organization 3 contribution: -1.1541166760514845e-05
+type of attr_lst:  <class 'list'>
+For the 90-th epoch, train loss: 0.12279364466667175, test auc: 0.8573772196348807

@@ -1,0 +1,410 @@
+op2=>operation: '\nCreated on Tue Nov  9 09:43:55 2021\n\n@author: adamwei\n'
+op4=>operation: import argparse
+op6=>operation: import time
+op8=>operation: import pandas as pd
+op10=>operation: from thop import profile
+op12=>operation: import torch
+op14=>operation: import numpy as np
+op16=>operation: import matplotlib.pyplot as plt
+op18=>operation: from torch import nn
+op20=>operation: from torch.utils.data import DataLoader, TensorDataset
+op22=>operation: from sklearn.model_selection import train_test_split
+op24=>operation: from sklearn import preprocessing
+op26=>operation: from sklearn.metrics import accuracy_score, roc_auc_score
+op28=>operation: from avazudataset import AvazuDataset
+op30=>operation: from utils import load_dat, batch_split, create_avazu_dataset
+op32=>operation: '\nReference\n    https://www.kaggle.com/c/avazu-ctr-prediction\n'
+op34=>operation: from torch_model import MlpModel, torch_organization_model, torch_top_model
+st37=>start: start main
+io39=>inputoutput: input: args
+op42=>operation: data_type = args.data_type
+op44=>operation: model_type = args.model_type
+op46=>operation: epochs = args.epochs
+op48=>operation: organization_num = args.organization_num
+op50=>operation: attribute_split_array = np.zeros(organization_num).astype(int)
+op52=>operation: nrows = 50000
+cond55=>condition: if (data_type == 'original')
+cond60=>condition: if (args.dname == 'ADULT')
+op64=>operation: file_path = './datasets/{0}.csv'.format(args.dname)
+op66=>operation: X = pd.read_csv(file_path)
+op68=>operation: X = X.drop('edu', axis=1)
+op70=>operation: X = X.rename({'skin': 'race'}, axis=1)
+sub72=>subroutine: X.head()
+cond75=>condition: for attribute in X.columns
+sub84=>subroutine: plt.figure()
+sub86=>subroutine: X.value_counts(X[attribute]).sort_index(ascending=True).plot(kind='bar')
+op90=>operation: y = X['income'].apply((lambda x: bool(('>' in x)))).astype('int')
+op92=>operation: X = X.drop(['income'], axis=1)
+op94=>operation: (N, dim) = X.shape
+sub96=>subroutine: print('\n\n=================================')
+sub98=>subroutine: print('\nDataset:', args.dname, '\nNumber of attributes:', (dim - 1), '\nNumber of labels:', 1, '\nNumber of rows:', N, '\nPostive ratio:', (sum(y) / len(y)))
+op100=>operation: columns = list(X.columns)
+op102=>operation: attribute_split_array = (np.ones(len(attribute_split_array)).astype(int) * int((dim / organization_num)))
+cond105=>condition: if (np.sum(attribute_split_array) > dim)
+sub109=>subroutine: print('unknown error in attribute splitting!')
+op202=>operation: loss_array = []
+op204=>operation: auc_array = []
+op206=>operation: test_epoch_array = []
+cond209=>condition: if (model_type == 'vertical')
+sub213=>subroutine: print('\nThe current vertical FL has a non-configurable structure.')
+sub215=>subroutine: print('Reconfigurable vertical FL can be achieved by simply changing the attribute group split!')
+sub217=>subroutine: print('Ming revised the codes on 12/11/2021 to realize re-configurable vertical FL.')
+sub219=>subroutine: print('\nThere are {} participant organizations:'.format(organization_num))
+op221=>operation: attribute_groups = []
+op223=>operation: attribute_start_idx = 0
+cond226=>condition: for organization_idx in range(organization_num)
+op239=>operation: attribute_end_idx = (attribute_start_idx + attribute_split_array[organization_idx])
+sub241=>subroutine: attribute_groups.append(columns[attribute_start_idx:attribute_end_idx])
+op243=>operation: attribute_start_idx = attribute_end_idx
+sub245=>subroutine: print('The attributes held by Organization {0}: {1}'.format(organization_idx, attribute_groups[organization_idx]))
+op249=>operation: vertical_splitted_data = {}
+op251=>operation: encoded_vertical_splitted_data = {}
+op253=>operation: chy_one_hot_enc = preprocessing.OneHotEncoder(sparse=False, handle_unknown='ignore')
+cond256=>condition: for organization_idx in range(organization_num)
+op267=>operation: vertical_splitted_data[organization_idx] = X[attribute_groups[organization_idx]].values
+op269=>operation: encoded_vertical_splitted_data[organization_idx] = chy_one_hot_enc.fit_transform(vertical_splitted_data[organization_idx])
+sub271=>subroutine: print('The shape of the encoded dataset held by Organization {0}: {1}'.format(organization_idx, np.shape(encoded_vertical_splitted_data[organization_idx])))
+op275=>operation: random_seed = 1001
+op277=>operation: X_train_vertical_FL = {}
+op279=>operation: X_test_vertical_FL = {}
+cond282=>condition: for organization_idx in range(organization_num)
+cond300=>condition: if (organization_idx == 0)
+op304=>operation: (X_train_vertical_FL[organization_idx], X_test_vertical_FL[organization_idx], y_train, y_test) = train_test_split(encoded_vertical_splitted_data[organization_idx], y, test_size=0.2, random_state=random_seed)
+op308=>operation: (X_train_vertical_FL[organization_idx], X_test_vertical_FL[organization_idx], _, _) = train_test_split(encoded_vertical_splitted_data[organization_idx], y, test_size=0.2, random_state=random_seed)
+op313=>operation: (train_loader_list, test_loader_list) = ([], [])
+cond316=>condition: for organization_idx in range(organization_num)
+op329=>operation: X_train_vertical_FL[organization_idx] = torch.from_numpy(X_train_vertical_FL[organization_idx]).float()
+op331=>operation: X_test_vertical_FL[organization_idx] = torch.from_numpy(X_test_vertical_FL[organization_idx]).float()
+sub333=>subroutine: train_loader_list.append(DataLoader(X_train_vertical_FL[organization_idx], batch_size=args.batch_size))
+sub335=>subroutine: test_loader_list.append(DataLoader(X_test_vertical_FL[organization_idx], batch_size=len(X_test_vertical_FL[organization_idx]), shuffle=False))
+op339=>operation: y_train = torch.from_numpy(y_train.to_numpy()).float()
+op341=>operation: y_test = torch.from_numpy(y_test.to_numpy()).float()
+sub343=>subroutine: train_loader_list.append(DataLoader(y_train, batch_size=args.batch_size))
+sub345=>subroutine: test_loader_list.append(DataLoader(y_test, batch_size=args.batch_size))
+op347=>operation: organization_hidden_units_array = ([np.array([128])] * organization_num)
+op349=>operation: organization_output_dim = np.array([64 for i in range(organization_num)])
+op351=>operation: top_hidden_units = np.array([64])
+op353=>operation: top_output_dim = 1
+op355=>operation: organization_models = {}
+cond358=>operation: organization_models[organization_idx] = torch_organization_model(X_train_vertical_FL[organization_idx].shape[(- 1)], organization_hidden_units_array[organization_idx], organization_output_dim[organization_idx]) while  organization_idx in range(organization_num)
+op370=>operation: top_model = torch_top_model(sum(organization_output_dim), top_hidden_units, top_output_dim)
+op372=>operation: optimizer = torch.optim.Adam(top_model.parameters(), lr=0.002)
+op374=>operation: optimizer_organization_list = []
+cond377=>operation: optimizer_organization_list.append(torch.optim.Adam(organization_models[organization_idx].parameters(), lr=0.002)) while  organization_idx in range(organization_num)
+sub389=>subroutine: print('\nStart vertical FL......\n')
+op391=>operation: criterion = nn.BCELoss()
+sub393=>subroutine: top_model.train()
+cond396=>condition: for i in range(epochs)
+op629=>operation: batch_idxs_list = batch_split(len(X_train_vertical_FL[0]), args.batch_size, args.batch_type)
+cond632=>condition: for batch_idxs in batch_idxs_list
+sub715=>subroutine: optimizer.zero_grad()
+cond718=>operation: optimizer_organization_list[organization_idx].zero_grad() while  organization_idx in range(organization_num)
+op730=>operation: organization_outputs = {}
+cond733=>operation: organization_outputs[organization_idx] = organization_models[organization_idx](X_train_vertical_FL[organization_idx][batch_idxs]) while  organization_idx in range(organization_num)
+op745=>operation: organization_outputs_cat = organization_outputs[0]
+cond748=>condition: if (len(organization_outputs) >= 2)
+cond753=>operation: organization_outputs_cat = torch.cat((organization_outputs_cat, organization_outputs[organization_idx]), 1) while  organization_idx in range(1, organization_num)
+op768=>operation: outputs = top_model(organization_outputs_cat)
+op770=>operation: logits = torch.sigmoid(outputs)
+op772=>operation: logits = torch.reshape(logits, shape=[len(logits)])
+op774=>operation: loss = criterion(logits, y_train[batch_idxs])
+sub776=>subroutine: loss.backward()
+sub778=>subroutine: optimizer.step()
+cond781=>operation: optimizer_organization_list[organization_idx].step() while  organization_idx in range(organization_num)
+cond796=>condition: if (((i + 1) % 1) == 0)
+op800=>operation: organization_outputs_for_test = {}
+cond803=>operation: organization_outputs_for_test[organization_idx] = organization_models[organization_idx](X_test_vertical_FL[organization_idx]) while  organization_idx in range(organization_num)
+op815=>operation: organization_outputs_for_test_cat = organization_outputs_for_test[0]
+cond818=>condition: if (len(organization_outputs_for_test) >= 2)
+cond823=>operation: organization_outputs_for_test_cat = torch.cat((organization_outputs_for_test_cat, organization_outputs_for_test[organization_idx]), 1) while  organization_idx in range(1, organization_num)
+op838=>operation: outputs = top_model(organization_outputs_for_test_cat)
+op840=>operation: log_probs = torch.sigmoid(outputs)
+op842=>operation: log_probs = torch.reshape(log_probs, shape=[len(log_probs)])
+op844=>operation: auc = roc_auc_score(y_test, log_probs.data)
+sub846=>subroutine: print('For the {0}-th epoch, train loss: {1}, test auc: {2}'.format((i + 1), loss.detach().numpy(), auc))
+sub848=>subroutine: test_epoch_array.append((i + 1))
+sub850=>subroutine: loss_array.append(loss.detach().numpy())
+sub852=>subroutine: auc_array.append(auc)
+io1043=>inputoutput: output:  (test_epoch_array, loss_array, auc_array)
+e1041=>end: end function return
+cond862=>condition: if (model_type == 'centralized')
+op866=>operation: chy_one_hot_enc = preprocessing.OneHotEncoder(sparse=False, handle_unknown='ignore')
+op868=>operation: X = chy_one_hot_enc.fit_transform(X)
+sub870=>subroutine: print('Client data shape: {}, postive ratio: {}'.format(X.shape, (sum(y) / len(y))))
+op872=>operation: (X_train, X_test, y_train, y_test) = train_test_split(X, y, test_size=0.2, random_state=0)
+op874=>operation: X_train = torch.from_numpy(X_train).float()
+op876=>operation: X_test = torch.from_numpy(X_test).float()
+op878=>operation: y_train = torch.from_numpy(y_train).float()
+op880=>operation: y_test = torch.from_numpy(y_test).float()
+op882=>operation: train_data = TensorDataset(X_train, y_train)
+op884=>operation: test_data = TensorDataset(X_test, y_test)
+op886=>operation: train_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True)
+op888=>operation: test_loader = DataLoader(test_data, batch_size=len(test_data), shuffle=False)
+op890=>operation: hidden_units = np.array([128, 64, 32])
+op892=>operation: model = MlpModel(input_dim=X_train.shape[(- 1)], hidden_units=hidden_units, num_classes=1)
+op894=>operation: optimizer = torch.optim.Adam(model.parameters(), lr=0.002)
+op896=>operation: criterion = nn.BCELoss()
+sub898=>subroutine: model.train()
+cond901=>condition: for i in range(epochs)
+cond971=>condition: for (idx, (data, targets)) in enumerate(train_loader)
+sub990=>subroutine: optimizer.zero_grad()
+op992=>operation: outputs = model(data)
+op994=>operation: logits = torch.sigmoid(outputs)
+op996=>operation: logits = torch.reshape(logits, shape=[len(logits)])
+op998=>operation: loss = criterion(logits, targets)
+sub1000=>subroutine: loss.backward()
+sub1002=>subroutine: optimizer.step()
+cond1007=>condition: for (idx, (data, targets)) in enumerate(test_loader)
+op1018=>operation: outputs = model(data)
+op1020=>operation: log_probs = torch.sigmoid(outputs)
+op1022=>operation: auc = roc_auc_score(targets.data, log_probs.data)
+sub1026=>subroutine: print('For the {}-th epoch, test auc: {}'.format(i, auc))
+sub1028=>subroutine: test_epoch_array.append((i + 1))
+sub1030=>subroutine: loss_array.append(loss.detach().numpy())
+sub1032=>subroutine: auc_array.append(auc)
+cond114=>condition: if (np.sum(attribute_split_array) < dim)
+op118=>operation: missing_attribute_num = (dim - np.sum(attribute_split_array))
+op120=>operation: attribute_split_array[(- 1)] = (attribute_split_array[(- 1)] + missing_attribute_num)
+sub124=>subroutine: print('Successful attribute split for multiple organizations')
+cond131=>condition: if (args.dname == 'AVAZU')
+op135=>operation: file_path = './datasets/{0}.gz'.format(args.dname)
+op137=>operation: df = pd.read_csv(file_path, compression='gzip', nrows=nrows)
+sub139=>subroutine: df.to_csv('./datasets/{0}.csv'.format(args.dname), index=False)
+op141=>operation: columns = df.columns.drop('id')
+op143=>operation: data = AvazuDataset('./datasets/{0}.csv'.format(args.dname), rebuild_cache=True)
+op145=>operation: (X, y) = ([data[i][0] for i in range(len(data))], [data[i][1] for i in range(len(data))])
+op147=>operation: y = np.reshape(y, [len(y), 1])
+op149=>operation: data = np.concatenate((y, X), axis=1)
+op151=>operation: X = pd.DataFrame(data, columns=columns)
+op153=>operation: y = X['click'].values.astype('int')
+op155=>operation: X = X.drop(['click'], axis=1)
+op157=>operation: (N, dim) = X.shape
+sub159=>subroutine: print('\n\n=================================')
+sub161=>subroutine: print('\nDataset:', args.dname, '\nNumber of attributes:', (dim - 1), '\nNumber of labels:', 1, '\nNumber of rows:', N, '\nPostive ratio:', (sum(y) / len(y)))
+op163=>operation: columns = list(X.columns)
+op165=>operation: attribute_split_array = (np.ones(len(attribute_split_array)).astype(int) * int((dim / organization_num)))
+cond168=>condition: if (np.sum(attribute_split_array) > dim)
+sub172=>subroutine: print('unknown error in attribute splitting!')
+cond177=>condition: if (np.sum(attribute_split_array) < dim)
+op181=>operation: missing_attribute_num = (dim - np.sum(attribute_split_array))
+op183=>operation: attribute_split_array[(- 1)] = (attribute_split_array[(- 1)] + missing_attribute_num)
+sub187=>subroutine: print('Successful attribute split for multiple organizations')
+op197=>operation: file_path = './dataset/{0}.dat'.format(args.dname)
+op199=>operation: (X, y) = load_dat(file_path, minmax=(0, 1), normalize=False, bias_term=True)
+
+op2->op4
+op4->op6
+op6->op8
+op8->op10
+op10->op12
+op12->op14
+op14->op16
+op16->op18
+op18->op20
+op20->op22
+op22->op24
+op24->op26
+op26->op28
+op28->op30
+op30->op32
+op32->op34
+op34->st37
+st37->io39
+io39->op42
+op42->op44
+op44->op46
+op46->op48
+op48->op50
+op50->op52
+op52->cond55
+cond55(yes)->cond60
+cond60(yes)->op64
+op64->op66
+op66->op68
+op68->op70
+op70->sub72
+sub72->cond75
+cond75(yes)->sub84
+sub84->sub86
+sub86(left)->cond75
+cond75(no)->op90
+op90->op92
+op92->op94
+op94->sub96
+sub96->sub98
+sub98->op100
+op100->op102
+op102->cond105
+cond105(yes)->sub109
+sub109->op202
+op202->op204
+op204->op206
+op206->cond209
+cond209(yes)->sub213
+sub213->sub215
+sub215->sub217
+sub217->sub219
+sub219->op221
+op221->op223
+op223->cond226
+cond226(yes)->op239
+op239->sub241
+sub241->op243
+op243->sub245
+sub245(left)->cond226
+cond226(no)->op249
+op249->op251
+op251->op253
+op253->cond256
+cond256(yes)->op267
+op267->op269
+op269->sub271
+sub271(left)->cond256
+cond256(no)->op275
+op275->op277
+op277->op279
+op279->cond282
+cond282(yes)->cond300
+cond300(yes)->op304
+op304->cond282
+cond300(no)->op308
+op308->cond282
+cond282(no)->op313
+op313->cond316
+cond316(yes)->op329
+op329->op331
+op331->sub333
+sub333->sub335
+sub335(left)->cond316
+cond316(no)->op339
+op339->op341
+op341->sub343
+sub343->sub345
+sub345->op347
+op347->op349
+op349->op351
+op351->op353
+op353->op355
+op355->cond358
+cond358->op370
+op370->op372
+op372->op374
+op374->cond377
+cond377->sub389
+sub389->op391
+op391->sub393
+sub393->cond396
+cond396(yes)->op629
+op629->cond632
+cond632(yes)->sub715
+sub715->cond718
+cond718->op730
+op730->cond733
+cond733->op745
+op745->cond748
+cond748(yes)->cond753
+cond753->op768
+op768->op770
+op770->op772
+op772->op774
+op774->sub776
+sub776->sub778
+sub778->cond781
+cond781->cond632
+cond748(no)->op768
+cond632(no)->cond796
+cond796(yes)->op800
+op800->cond803
+cond803->op815
+op815->cond818
+cond818(yes)->cond823
+cond823->op838
+op838->op840
+op840->op842
+op842->op844
+op844->sub846
+sub846->sub848
+sub848->sub850
+sub850->sub852
+sub852->cond396
+cond818(no)->op838
+cond796(no)->cond396
+cond396(no)->io1043
+io1043->e1041
+cond209(no)->cond862
+cond862(yes)->op866
+op866->op868
+op868->sub870
+sub870->op872
+op872->op874
+op874->op876
+op876->op878
+op878->op880
+op880->op882
+op882->op884
+op884->op886
+op886->op888
+op888->op890
+op890->op892
+op892->op894
+op894->op896
+op896->sub898
+sub898->cond901
+cond901(yes)->cond971
+cond971(yes)->sub990
+sub990->op992
+op992->op994
+op994->op996
+op996->op998
+op998->sub1000
+sub1000->sub1002
+sub1002(left)->cond971
+cond971(no)->cond1007
+cond1007(yes)->op1018
+op1018->op1020
+op1020->op1022
+op1022(left)->cond1007
+cond1007(no)->sub1026
+sub1026->sub1028
+sub1028->sub1030
+sub1030->sub1032
+sub1032(left)->cond901
+cond901(no)->io1043
+cond862(no)->io1043
+cond105(no)->cond114
+cond114(yes)->op118
+op118->op120
+op120->op202
+cond114(no)->sub124
+sub124->op202
+cond60(no)->cond131
+cond131(yes)->op135
+op135->op137
+op137->sub139
+sub139->op141
+op141->op143
+op143->op145
+op145->op147
+op147->op149
+op149->op151
+op151->op153
+op153->op155
+op155->op157
+op157->sub159
+sub159->sub161
+sub161->op163
+op163->op165
+op165->cond168
+cond168(yes)->sub172
+sub172->op202
+cond168(no)->cond177
+cond177(yes)->op181
+op181->op183
+op183->op202
+cond177(no)->sub187
+sub187->op202
+cond131(no)->op202
+cond55(no)->op197
+op197->op199
+op199->op202
+

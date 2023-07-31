@@ -1,0 +1,14 @@
+
+for organization_idx in range(organization_num):
+
+	concatenated 
+	loss_with = compute loss
+
+	remove an organization_idx from concatenating
+	loss_without = compute loss
+
+	contributions[organization_idx].append(loss_with - loss_without)
+
+
+
+plot contributions for each organization, x axis is contribution, legend is organization number

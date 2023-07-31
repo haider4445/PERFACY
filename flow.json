@@ -1,0 +1,1 @@
+{"graph": {"directed": true, "nodes": {"node_31e70595": {"uid": "node_31e70595", "label": "0: (global)()", "name": "torch_vertical_FL_train::(global)"}, "node_8b6da165": {"uid": "node_8b6da165", "label": "28: main()", "name": "torch_vertical_FL_train::main"}}, "edges": [{"source": "node_31e70595", "target": "node_8b6da165", "directed": true}]}}
